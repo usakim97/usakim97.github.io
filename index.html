@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usa Kim — IT & Software Development</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F8F6; --surface: #EFEFEC; --surface2: #E6E6E2;
+      --text: #1A1A1A; --muted: #6B6B6B; --accent: #4A6FA5;
+      --accent-lt: #EAF0F8; --border: #DDDDD8; --radius: 8px;
+      --green: #3A7D4A; --green-lt: #EAF3EC;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+    .nav-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .logo { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { font-size: 0.875rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    nav ul a:hover { color: var(--text); }
+
+    /* LAYOUT */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    h1, h2, h3 { letter-spacing: -0.03em; line-height: 1.15; }
+
+    /* HERO */
+    #hero { padding: 6rem 0 5rem; border-bottom: 1px solid var(--border); }
+    #hero .eyebrow { font-size: 0.875rem; font-weight: 500; color: var(--muted); margin-bottom: 1rem; }
+    #hero h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); font-weight: 800; margin-bottom: 1.25rem; }
+    #hero .tagline { font-size: 1.125rem; color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 2rem; }
+    .btn { display: inline-block; padding: 0.625rem 1.25rem; border-radius: var(--radius); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background 0.15s, color 0.15s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #3a5d8f; }
+    .btn-secondary { background: var(--surface); color: var(--text); margin-left: 0.75rem; }
+    .btn-secondary:hover { background: var(--border); }
+
+    /* ABOUT */
+    #about p { font-size: 1.0625rem; color: var(--muted); line-height: 1.8; max-width: 660px; }
+    #about p + p { margin-top: 1rem; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .skill-group { background: var(--surface); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
+    .skill-group h3 { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .skill-group ul { list-style: none; }
+    .skill-group ul li { font-size: 0.9375rem; color: var(--text); padding: 0.2rem 0; }
+
+    /* PROJECTS */
+    .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .project-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.15s; }
+    .project-card:hover { border-color: var(--accent); }
+    .card-header { padding: 1.75rem 2rem 1.25rem; }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+    .project-card h3 { font-size: 1.0625rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .badge { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
+    .badge-active { background: var(--accent-lt); color: var(--accent); }
+    .badge-complete { background: var(--green-lt); color: var(--green); }
+    .desc { font-size: 0.9375rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .tag { font-size: 0.75rem; font-weight: 500; background: var(--bg); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0.2rem 0.55rem; }
+
+    /* DEMO TOGGLE */
+    .demo-toggle { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; font-weight: 600; color: var(--accent); cursor: pointer; padding: 0.625rem 2rem; border-top: 1px solid var(--border); background: var(--bg); width: 100%; text-align: left; transition: background 0.15s; border: none; border-top: 1px solid var(--border); }
+    .demo-toggle:hover { background: var(--accent-lt); }
+    .demo-toggle .arrow { transition: transform 0.2s; display: inline-block; }
+    .demo-toggle.open .arrow { transform: rotate(90deg); }
+    .demo-panel { display: none; border-top: 1px solid var(--border); }
+    .demo-panel.open { display: block; }
+
+    /* ── DEMO 1: Architecture Diagram ── */
+    .arch-diagram { padding: 2rem; background: #1C1F26; border-radius: 0 0 var(--radius) var(--radius); }
+    .arch-diagram svg { width: 100%; height: auto; display: block; }
+
+    /* ── DEMO 2: Encoding Pipeline ── */
+    .pipeline-demo { padding: 1.75rem 2rem; }
+    .pipeline-demo h4 { font-size: 0.875rem; font-weight: 600; color: var(--muted); margin-bottom: 1.25rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .pipeline-controls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .pipeline-controls button { padding: 0.5rem 1rem; border-radius: var(--radius); font-size: 0.8125rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--text); transition: all 0.15s; font-family: inherit; }
+    .pipeline-controls button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .pipeline-controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .machines { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .machine { background: var(--surface2); border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid var(--border); }
+    .machine-name { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 0.5rem; }
+    .machine-status { font-size: 0.8125rem; color: var(--muted); margin-bottom: 0.75rem; min-height: 1.2em; }
+    .machine-jobs { display: flex; flex-direction: column; gap: 0.35rem; min-height: 60px; }
+    .job-pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.65rem; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+    .job-pill.encoding { background: var(--accent-lt); border-color: var(--accent); color: var(--accent); }
+    .job-pill.done { background: var(--green-lt); border-color: #3A7D4A; color: var(--green); }
+    .job-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .encoding .job-dot { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .pipeline-log { background: #1C1F26; border-radius: var(--radius); padding: 1rem 1.25rem; font-size: 0.75rem; font-family: 'Courier New', monospace; color: #8FBCBB; line-height: 1.8; max-height: 120px; overflow-y: auto; }
+    .log-line { opacity: 0; animation: fadein 0.3s forwards; }
+    @keyframes fadein { to { opacity: 1; } }
+    .log-green { color: #A3BE8C; }
+    .log-yellow { color: #EBCB8B; }
+    .log-blue { color: #81A1C1; }
+
+    /* ── DEMO 3: Lyrion Player Windows App ── */
+    .lyrion-demo { padding: 1.75rem 2rem; display: flex; justify-content: center; }
+    .win-app { background: #202020; border-radius: 10px; width: 100%; max-width: 680px; overflow: hidden; color: #E8E8F0; font-family: 'Inter', sans-serif; border: 1px solid #3A3A3A; box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; height: 480px; }
+    .win-titlebar { height: 32px; background: #1A1A1A; display: flex; align-items: center; padding: 0 12px; flex-shrink: 0; user-select: none; border-bottom: 1px solid #2A2A2A; }
+    .win-titlebar-text { font-size: 0.75rem; color: #A0A0A0; flex: 1; text-align: center; }
+    .win-ctrl { width: 46px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: default; color: #A0A0A0; font-size: 0.65rem; transition: background 0.1s; border: none; background: none; }
+    .win-ctrl:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .win-ctrl.close:hover { background: #C42B1C; color: #fff; }
+    .win-body { display: flex; flex: 1; overflow: hidden; }
+    .win-nav { width: 188px; background: rgba(255,255,255,0.03); padding: 8px 0; flex-shrink: 0; border-right: 1px solid #2A2A2A; display: flex; flex-direction: column; gap: 2px; }
+    .win-nav-section { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #505050; padding: 8px 16px 4px; margin-top: 4px; }
+    .win-nav-item { display: flex; align-items: center; gap: 10px; padding: 7px 16px; font-size: 0.8125rem; cursor: pointer; border-radius: 4px; margin: 0 4px; color: #B0B0B0; transition: background 0.1s, color 0.1s; border: none; background: none; font-family: inherit; text-align: left; }
+    .win-nav-item:hover { background: rgba(255,255,255,0.06); color: #E8E8F0; }
+    .win-nav-item.active { background: rgba(74,111,165,0.2); color: #81A1C1; }
+    .win-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .win-nav-spacer { flex: 1; }
+    .win-content { flex: 1; overflow-y: auto; padding: 16px; }
+    .win-content::-webkit-scrollbar { width: 6px; }
+    .win-content::-webkit-scrollbar-thumb { background: #3A3A3A; border-radius: 3px; }
+    .win-view-title { font-size: 1.125rem; font-weight: 700; color: #E8E8F0; margin-bottom: 14px; letter-spacing: -0.02em; }
+    .win-album-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .win-album-card { background: rgba(255,255,255,0.04); border-radius: 6px; padding: 10px; cursor: pointer; transition: background 0.15s; border: 1px solid transparent; }
+    .win-album-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(74,111,165,0.3); }
+    .win-album-art { width: 100%; aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 8px; }
+    .win-album-name { font-size: 0.75rem; font-weight: 600; color: #E8E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .win-album-artist { font-size: 0.6875rem; color: #707070; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .win-back-btn { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: #4A6FA5; cursor: pointer; margin-bottom: 14px; background: none; border: none; padding: 0; font-family: inherit; }
+    .win-back-btn:hover { color: #81A1C1; }
+    .win-tracklist { display: flex; flex-direction: column; gap: 1px; }
+    .win-track-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: background 0.1s; }
+    .win-track-row:hover { background: rgba(255,255,255,0.06); }
+    .win-track-row.active { background: rgba(74,111,165,0.15); }
+    .win-track-num { width: 18px; font-size: 0.75rem; color: #606060; text-align: right; flex-shrink: 0; }
+    .win-track-row.active .win-track-num { color: #4A6FA5; }
+    .win-track-meta { flex: 1; min-width: 0; }
+    .win-track-name { font-size: 0.8125rem; font-weight: 500; color: #E8E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .win-track-row.active .win-track-name { color: #81A1C1; }
+    .win-track-dur { font-size: 0.75rem; color: #606060; flex-shrink: 0; }
+    .win-nowplaying { height: 72px; background: rgba(255,255,255,0.03); border-top: 1px solid #2A2A2A; display: flex; align-items: center; padding: 0 16px; gap: 12px; flex-shrink: 0; }
+    .win-np-art { width: 40px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; background: linear-gradient(135deg,#4A6FA5,#2D4A7A); }
+    .win-np-meta { flex: 1; min-width: 0; }
+    .win-np-track { font-size: 0.8125rem; font-weight: 600; color: #E8E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .win-np-artist { font-size: 0.75rem; color: #707070; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .win-np-controls { display: flex; align-items: center; gap: 6px; }
+    .win-np-btn { background: none; border: none; color: #909090; cursor: pointer; display: flex; align-items: center; padding: 5px; border-radius: 4px; transition: color 0.1s, background 0.1s; }
+    .win-np-btn:hover { color: #E8E8F0; background: rgba(255,255,255,0.08); }
+    .win-np-btn.playbtn { width: 32px; height: 32px; background: #4A6FA5; color: #fff; border-radius: 50%; justify-content: center; }
+    .win-np-btn.playbtn:hover { background: #3a5d8f; }
+    .win-np-progress { flex: 1; max-width: 150px; }
+    .win-np-bar { height: 3px; background: #3A3A3A; border-radius: 999px; cursor: pointer; }
+    .win-np-fill { height: 100%; background: #4A6FA5; border-radius: 999px; transition: width 1s linear; }
+    .win-np-times { display: flex; justify-content: space-between; font-size: 0.625rem; color: #606060; margin-top: 3px; }
+
+    /* CONTACT */
+    #contact p { font-size: 1.0625rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; max-width: 480px; }
+    .contact-body { display: flex; flex-direction: column; gap: 0.75rem; max-width: 400px; }
+    .contact-link { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9375rem; font-weight: 500; color: var(--text); text-decoration: none; padding: 0.75rem 1rem; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); transition: border-color 0.15s, background 0.15s, color 0.15s; }
+    .contact-link:hover { border-color: var(--accent); background: var(--accent-lt); color: var(--accent); }
+    .contact-link svg { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.6; }
+    .contact-link:hover svg { opacity: 1; }
+
+    footer { padding: 2rem; text-align: center; font-size: 0.8125rem; color: var(--muted); }
+
+    @media (max-width: 600px) {
+      nav ul { gap: 1.25rem; }
+      section { padding: 3.5rem 0; }
+      #hero { padding: 4rem 0 3.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .card-header { padding: 1.25rem; }
+      .machines { grid-template-columns: 1fr; }
+      .btn-secondary { margin-left: 0; margin-top: 0.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="logo">Usa Kim</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="container">
+    <p class="eyebrow">Kansas City, MO — Open to remote</p>
+    <h1>IT Support &amp;<br>Software Development</h1>
+    <p class="tagline">I've spent years being the person who fixes things — POS systems, delivery platforms, server infrastructure, automation pipelines. Now I'm looking for a role where that's the job description.</p>
+    <a href="Usa_Kim_Resume.docx" class="btn btn-primary" download>Download Resume</a>
+    <a href="#projects" class="btn btn-secondary">View Projects</a>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <p>I graduated from Metropolitan Community College with an A.A.S. in Software Development (Dean's List) in December 2025. Before and during school, I was the de facto IT lead everywhere I worked — setting up and maintaining POS systems, handling technical troubleshooting, training staff, and building systems from scratch when none existed.</p>
+    <p>Outside of work, I've built and maintained a full self-hosted home server stack, a distributed video encoding pipeline, and am currently developing a Windows desktop application for music streaming. I learn by building real things and figuring out what breaks.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Skills</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Technical</h3>
+        <ul>
+          <li>Docker &amp; Portainer</li><li>Linux (CLI)</li><li>PowerShell</li>
+          <li>Networking &amp; DNS</li><li>POS Systems (Clover)</li><li>Windows &amp; macOS</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Development</h3>
+        <ul>
+          <li>Python</li><li>C++</li><li>Java</li>
+          <li>JavaScript</li><li>HTML &amp; CSS</li><li>SQL</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Tools</h3>
+        <ul>
+          <li>VS Code &amp; Git</li><li>Adobe Creative Suite</li><li>Microsoft Office</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <div class="projects-list">
+
+      <!-- PROJECT 1: Home Server -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-top">
+            <h3>Self-Hosted Home Server &amp; Media Infrastructure</h3>
+            <span class="badge badge-complete">Complete</span>
+          </div>
+          <p class="desc">Designed and deployed a full self-hosted stack on a UGREEN NAS using Docker and Portainer. Configured automated media acquisition pipelines, VPN-integrated download clients, and resolved real-world networking edge cases including NAT loopback and reverse proxy conflicts.</p>
+          <div class="tags">
+            <span class="tag">Docker</span><span class="tag">Portainer</span><span class="tag">Linux</span>
+            <span class="tag">Networking</span><span class="tag">Nginx</span><span class="tag">Tailscale</span><span class="tag">Jellyfin</span>
+          </div>
+        </div>
+        <button class="demo-toggle" onclick="toggleDemo('demo-arch', this)">
+          <span class="arrow">▶</span>&nbsp; View Architecture Diagram
+        </button>
+        <div class="demo-panel" id="demo-arch">
+          <div class="arch-diagram">
+            <svg viewBox="0 0 780 480" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+              <defs>
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff06" stroke-width="1"/>
+                </pattern>
+                <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#4A6FA5"/>
+                </marker>
+                <marker id="arr-t" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#6E8E9E"/>
+                </marker>
+              </defs>
+
+              <rect width="780" height="480" fill="#1C1F26"/>
+              <rect width="780" height="480" fill="url(#grid)"/>
+
+              <!-- INTERNET -->
+              <g transform="translate(290,18)">
+                <ellipse cx="100" cy="24" rx="90" ry="22" fill="#2A2D3A" stroke="#4A6FA5" stroke-width="1.5"/>
+                <text x="100" y="29" text-anchor="middle" fill="#81A1C1" font-size="11" font-weight="700" letter-spacing="0.08em">INTERNET</text>
+              </g>
+
+              <!-- Arrow: Internet → Tailscale only -->
+              <line x1="390" y1="64" x2="390" y2="98" stroke="#6E8E9E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-t)"/>
+
+              <!-- Tailscale -->
+              <g transform="translate(315,98)">
+                <rect width="150" height="46" rx="6" fill="#1E2A2A" stroke="#6E8E9E" stroke-width="1.5"/>
+                <text x="75" y="18" text-anchor="middle" fill="#8FAABC" font-size="9" font-weight="700" letter-spacing="0.05em">REMOTE ACCESS</text>
+                <text x="75" y="34" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Tailscale</text>
+              </g>
+
+              <!-- Arrow: Tailscale → NAS -->
+              <line x1="390" y1="144" x2="390" y2="175" stroke="#6E8E9E80" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-t)"/>
+
+              <!-- NAS boundary -->
+              <rect x="30" y="175" width="720" height="278" rx="8" fill="#1A1D24" stroke="#3A3D4A" stroke-width="1.5"/>
+              <text x="390" y="194" text-anchor="middle" fill="#4A4D5A" font-size="10" font-weight="700" letter-spacing="0.1em">UGREEN NAS — DOCKER / PORTAINER</text>
+
+              <!-- Gluetun wrapper — spans all media services -->
+              <rect x="48" y="204" width="584" height="148" rx="8" fill="#1A2215" stroke="#5E9E6E" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <text x="340" y="218" text-anchor="middle" fill="#6A8A5A" font-size="8" font-weight="700" letter-spacing="0.08em">GLUETUN / PROTONVPN — NETWORK CONTAINER</text>
+
+              <!-- Jellyfin -->
+              <g transform="translate(60,222)">
+                <rect width="100" height="44" rx="6" fill="#1E2A1E" stroke="#5E9E6E" stroke-width="1.5"/>
+                <text x="50" y="17" text-anchor="middle" fill="#8FBC8F" font-size="9" font-weight="700" letter-spacing="0.05em">MEDIA</text>
+                <text x="50" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Jellyfin</text>
+              </g>
+              <!-- Sonarr -->
+              <g transform="translate(175,222)">
+                <rect width="100" height="44" rx="6" fill="#1E2A1E" stroke="#5E9E6E" stroke-width="1.5"/>
+                <text x="50" y="17" text-anchor="middle" fill="#8FBC8F" font-size="9" font-weight="700" letter-spacing="0.05em">TV SHOWS</text>
+                <text x="50" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Sonarr</text>
+              </g>
+              <!-- Radarr -->
+              <g transform="translate(290,222)">
+                <rect width="100" height="44" rx="6" fill="#1E2A1E" stroke="#5E9E6E" stroke-width="1.5"/>
+                <text x="50" y="17" text-anchor="middle" fill="#8FBC8F" font-size="9" font-weight="700" letter-spacing="0.05em">MOVIES</text>
+                <text x="50" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Radarr</text>
+              </g>
+              <!-- Lidarr -->
+              <g transform="translate(405,222)">
+                <rect width="100" height="44" rx="6" fill="#1E2A1E" stroke="#5E9E6E" stroke-width="1.5"/>
+                <text x="50" y="17" text-anchor="middle" fill="#8FBC8F" font-size="9" font-weight="700" letter-spacing="0.05em">MUSIC</text>
+                <text x="50" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Lidarr</text>
+              </g>
+              <!-- qBittorrent -->
+              <g transform="translate(520,222)">
+                <rect width="100" height="44" rx="6" fill="#1E2A1E" stroke="#5E9E6E" stroke-width="1.5"/>
+                <text x="50" y="17" text-anchor="middle" fill="#8FBC8F" font-size="9" font-weight="700" letter-spacing="0.05em">DOWNLOADS</text>
+                <text x="50" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">qBittorrent</text>
+              </g>
+
+              <!-- ARR → qBit flow lines -->
+              <line x1="225" y1="266" x2="225" y2="290" stroke="#5E9E6E40" stroke-width="1"/>
+              <line x1="225" y1="290" x2="570" y2="290" stroke="#5E9E6E40" stroke-width="1"/>
+              <line x1="340" y1="266" x2="340" y2="290" stroke="#5E9E6E40" stroke-width="1"/>
+              <line x1="455" y1="266" x2="455" y2="290" stroke="#5E9E6E40" stroke-width="1"/>
+              <line x1="570" y1="290" x2="570" y2="266" stroke="#5E9E6E40" stroke-width="1" marker-end="url(#arr)"/>
+
+              <!-- VaultWarden -->
+              <g transform="translate(100,370)">
+                <rect width="130" height="44" rx="6" fill="#2A1E2A" stroke="#9E6E9E" stroke-width="1.5"/>
+                <text x="65" y="17" text-anchor="middle" fill="#BC8FBC" font-size="9" font-weight="700" letter-spacing="0.05em">PASSWORDS</text>
+                <text x="65" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">VaultWarden</text>
+              </g>
+              <!-- Uptime Kuma -->
+              <g transform="translate(260,370)">
+                <rect width="130" height="44" rx="6" fill="#2A1E2A" stroke="#9E6E9E" stroke-width="1.5"/>
+                <text x="65" y="17" text-anchor="middle" fill="#BC8FBC" font-size="9" font-weight="700" letter-spacing="0.05em">MONITORING</text>
+                <text x="65" y="32" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Uptime Kuma</text>
+              </g>
+
+              <!-- Immich separate stack -->
+              <g transform="translate(450,358)">
+                <rect width="260" height="68" rx="8" fill="#1A1D24" stroke="#9E7A4A" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="130" y="16" text-anchor="middle" fill="#7A5A2A" font-size="8" font-weight="700" letter-spacing="0.08em">SEPARATE PORTAINER STACK</text>
+                <rect x="60" y="22" width="140" height="34" rx="5" fill="#2A2014" stroke="#9E7A4A" stroke-width="1.5"/>
+                <text x="130" y="35" text-anchor="middle" fill="#C8A870" font-size="9" font-weight="700" letter-spacing="0.05em">PHOTOS</text>
+                <text x="130" y="49" text-anchor="middle" fill="#E8E8F0" font-size="10" font-weight="600">Immich</text>
+              </g>
+
+              <!-- Legend -->
+              <g transform="translate(42,446)">
+                <rect x="0" y="0" width="10" height="10" rx="2" fill="#1E2A1E" stroke="#5E9E6E" stroke-width="1.5"/>
+                <text x="15" y="10" fill="#8A8D9A" font-size="9">Media Stack (via Gluetun)</text>
+                <rect x="165" y="0" width="10" height="10" rx="2" fill="#2A1E2A" stroke="#9E6E9E" stroke-width="1.5"/>
+                <text x="180" y="10" fill="#8A8D9A" font-size="9">Monitoring / Security</text>
+                <rect x="320" y="0" width="10" height="10" rx="2" fill="#1A1D24" stroke="#9E7A4A" stroke-width="1.5"/>
+                <text x="335" y="10" fill="#8A8D9A" font-size="9">Separate Stack</text>
+                <line x1="430" y1="2" x2="450" y2="2" stroke="#6E8E9E" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="455" y="7" fill="#8A8D9A" font-size="9">Encrypted tunnel</text>
+                <line x1="555" y1="2" x2="575" y2="2" stroke="#5E9E6E" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="580" y="7" fill="#8A8D9A" font-size="9">VPN boundary</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Encoding Pipeline -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-top">
+            <h3>Distributed Video Encoding Pipeline</h3>
+            <span class="badge badge-complete">Complete</span>
+          </div>
+          <p class="desc">Automated a two-PC distributed encoding workflow using PowerShell scripts watching NAS-mounted shared folders for job intake, distribution, and assembly — handling edge cases including Unicode filename sanitization and wildcard path handling.</p>
+          <div class="tags">
+            <span class="tag">PowerShell</span><span class="tag">Automation</span>
+            <span class="tag">NAS</span><span class="tag">Windows</span><span class="tag">FFmpeg</span>
+          </div>
+        </div>
+        <button class="demo-toggle" onclick="toggleDemo('demo-pipeline', this)">
+          <span class="arrow">▶</span>&nbsp; Run Pipeline Simulation
+        </button>
+        <div class="demo-panel" id="demo-pipeline">
+          <div class="pipeline-demo">
+            <div class="pipeline-controls">
+              <button id="pipe-start" onclick="startPipeline()">▶ Start Simulation</button>
+              <button id="pipe-reset" onclick="resetPipeline()" disabled>↺ Reset</button>
+            </div>
+
+            <!-- Z: Drive folder display -->
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent);margin-bottom:0.5rem;">Z:\ — NAS Shared Drive</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;">
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.75rem;">
+                  <div style="font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:0.05em;margin-bottom:0.4rem;">📁 input\</div>
+                  <div id="folder-input" style="font-size:0.7rem;color:var(--muted);min-height:1rem;font-family:'Courier New',monospace;"></div>
+                </div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.75rem;">
+                  <div style="font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:0.05em;margin-bottom:0.4rem;">📁 split\</div>
+                  <div id="folder-split" style="font-size:0.7rem;color:var(--muted);min-height:1rem;font-family:'Courier New',monospace;"></div>
+                </div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.75rem;">
+                  <div style="font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:0.05em;margin-bottom:0.4rem;">📁 encoded\</div>
+                  <div id="folder-encoded" style="font-size:0.7rem;color:var(--muted);min-height:1rem;font-family:'Courier New',monospace;"></div>
+                </div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.75rem;">
+                  <div style="font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:0.05em;margin-bottom:0.4rem;">📁 output\</div>
+                  <div id="folder-output" style="font-size:0.7rem;color:var(--muted);min-height:1rem;font-family:'Courier New',monospace;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="machines">
+              <div class="machine">
+                <div class="machine-name">Main PC / Worker 1</div>
+                <div class="machine-status" id="m1-status">Idle — watching Z:\input\</div>
+                <div class="machine-jobs" id="m1-jobs"></div>
+              </div>
+              <div class="machine">
+                <div class="machine-name">Worker PC 2</div>
+                <div class="machine-status" id="m2-status">Idle — watching Z:\input\</div>
+                <div class="machine-jobs" id="m2-jobs"></div>
+              </div>
+            </div>
+            <div class="pipeline-log" id="pipe-log">
+              <div style="color:#8B8E99; font-style:italic;">Press Start to run the simulation...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: Lyrion Player -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-top">
+            <h3>Lyrion Player — Windows App</h3>
+            <span class="badge badge-active">In Progress</span>
+          </div>
+          <p class="desc">Building a native Windows client for the Lyrion Music Server (formerly Logitech Media Server) as a self-hosted audio streaming interface. Integrates with the Lyrion JSON-RPC API for library browsing and queue management.</p>
+          <div class="tags">
+            <span class="tag">Windows</span><span class="tag">JSON-RPC</span>
+            <span class="tag">UI Development</span><span class="tag">Self-Hosted</span>
+          </div>
+        </div>
+        <button class="demo-toggle" onclick="toggleDemo('demo-lyrion', this)">
+          <span class="arrow">▶</span>&nbsp; View App Demo
+        </button>
+        <div class="demo-panel" id="demo-lyrion">
+          <div class="lyrion-demo">
+            <div class="win-app">
+              <!-- Title bar -->
+              <div class="win-titlebar">
+                <span style="font-size:0.8rem;margin-right:6px;">🎵</span>
+                <span class="win-titlebar-text">Lyrion Player</span>
+                <button class="win-ctrl" title="Minimize">&#x2014;</button>
+                <button class="win-ctrl" title="Maximize">&#x25A1;</button>
+                <button class="win-ctrl close" title="Close">&#x2715;</button>
+              </div>
+              <!-- Body -->
+              <div class="win-body">
+                <nav class="win-nav">
+                  <div class="win-nav-section">Library</div>
+                  <button class="win-nav-item active" id="wnav-albums" onclick="winNav('albums',this)">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg>
+                    Albums
+                  </button>
+                  <button class="win-nav-item" id="wnav-artists" onclick="winNav('artists',this)">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Artists
+                  </button>
+                  <button class="win-nav-item" id="wnav-queue" onclick="winNav('queue',this)">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"/></svg>
+                    Queue
+                  </button>
+                  <div class="win-nav-spacer"></div>
+                  <div class="win-nav-section">Server</div>
+                  <button class="win-nav-item" id="wnav-server" onclick="winNav('server',this)">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-4 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM5 15h14c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-2c0-1.1.9-2 2-2z"/></svg>
+                    LMS Server
+                  </button>
+                </nav>
+                <div class="win-content" id="win-content-area"></div>
+              </div>
+              <!-- Now Playing Bar -->
+              <div class="win-nowplaying">
+                <div class="win-np-art" id="win-np-art">🎵</div>
+                <div class="win-np-meta">
+                  <div class="win-np-track" id="win-np-track">No track selected</div>
+                  <div class="win-np-artist" id="win-np-artist">—</div>
+                </div>
+                <div class="win-np-controls">
+                  <button class="win-np-btn" onclick="winPrev()" title="Previous">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+                  </button>
+                  <button class="win-np-btn playbtn" id="win-playbtn" onclick="winTogglePlay()">
+                    <svg id="win-playicon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </button>
+                  <button class="win-np-btn" onclick="winNext()" title="Next">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                  </button>
+                </div>
+                <div class="win-np-progress">
+                  <div class="win-np-bar" onclick="winSeek(event,this)">
+                    <div class="win-np-fill" id="win-np-fill" style="width:0%"></div>
+                  </div>
+                  <div class="win-np-times">
+                    <span id="win-np-elapsed">0:00</span>
+                    <span id="win-np-duration">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Contact</p>
+    <p>I'm currently looking for entry-level IT Support or Junior Developer roles, preferably remote or hybrid. Feel free to reach out by email or connect on LinkedIn.</p>
+    <div class="contact-body">
+      <a href="mailto:usakim97@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        usakim97@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/usakim" target="_blank" rel="noopener" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/usakim
+      </a>
+      <a href="https://github.com/usakim97" target="_blank" rel="noopener" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/usakim
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer><p>Usa Kim &nbsp;·&nbsp; Kansas City, MO &nbsp;·&nbsp; 2026</p></footer>
+
+<script>
+// ── Demo toggle ───────────────────────────────────────────────────────────────
+function toggleDemo(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.querySelector('.arrow').textContent = isOpen ? '▶' : '▼';
+}
+
+// ── Pipeline Simulation ───────────────────────────────────────────────────────
+let pipeRunning = false;
+
+function log(msg, cls='') {
+  const el = document.getElementById('pipe-log');
+  const line = document.createElement('div');
+  line.className = 'log-line' + (cls ? ' ' + cls : '');
+  line.textContent = msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function setJobPill(machineId, jobName, state) {
+  const container = document.getElementById(machineId);
+  let pill = container.querySelector(`[data-job="${CSS.escape(jobName)}"]`);
+  if (!pill) {
+    pill = document.createElement('div');
+    pill.className = 'job-pill';
+    pill.dataset.job = jobName;
+    pill.innerHTML = `<span class="job-dot"></span><span>${jobName}</span>`;
+    container.appendChild(pill);
+  }
+  pill.className = 'job-pill ' + state;
+}
+
+function clearPills(machineId) {
+  document.getElementById(machineId).innerHTML = '';
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function setFolder(id, files) {
+  const el = document.getElementById(id);
+    el.innerHTML = files.length
+    ? files.map(f => `<div style="color:#3A3D4A">${f}</div>`).join('')
+    : '';
+}
+
+async function startPipeline() {
+  if (pipeRunning) return;
+  pipeRunning = true;
+  document.getElementById('pipe-start').disabled = true;
+  document.getElementById('pipe-reset').disabled = false;
+  document.getElementById('pipe-log').innerHTML = '';
+  clearPills('m1-jobs');
+  clearPills('m2-jobs');
+  document.getElementById('m1-status').textContent = 'Idle';
+  document.getElementById('m2-status').textContent = 'Idle';
+  setFolder('folder-input', []);
+  setFolder('folder-split', []);
+  setFolder('folder-encoded', []);
+  setFolder('folder-output', []);
+
+  // Step 1: File arrives in input
+  setFolder('folder-input', ['video.mp4']);
+  log('[Watcher] New file detected: video.mp4', 'log-yellow');
+  await delay(700);
+
+  // Step 2: Split
+  log('[Splitter] Analyzing video.mp4 — splitting into 2 equal segments...', 'log-blue');
+  await delay(900);
+  setFolder('folder-split', ['video_1of2.mp4', 'video_2of2.mp4']);
+  setFolder('folder-input', []);
+  log('[Splitter] Segment 1 → Z:\\split\\video_1of2.mp4  (frames 0–50%)', 'log-blue');
+  await delay(400);
+  log('[Splitter] Segment 2 → Z:\\split\\video_2of2.mp4  (frames 50–100%)', 'log-blue');
+  await delay(500);
+
+  // Step 3: Dispatch
+  log('[Dispatcher] Assigning video_1of2.mp4 → Main PC / Worker 1', 'log-yellow');
+  await delay(200);
+  log('[Dispatcher] Assigning video_2of2.mp4 → Worker PC 2', 'log-yellow');
+  await delay(300);
+
+  document.getElementById('m1-status').textContent = 'Encoding segment 1 of 2...';
+  document.getElementById('m2-status').textContent = 'Encoding segment 2 of 2...';
+  setJobPill('m1-jobs', 'video_1of2.mp4', 'encoding');
+  setJobPill('m2-jobs', 'video_2of2.mp4', 'encoding');
+
+  // Step 4: Parallel encode
+  log('[Main PC / Worker 1] Encoding video_1of2.mp4...', 'log-blue');
+  log('[Worker PC 2] Encoding video_2of2.mp4...', 'log-blue');
+
+  await delay(2200);
+  setJobPill('m1-jobs', 'video_1of2.mp4', 'done');
+  setFolder('folder-encoded', ['video_1of2_enc.mp4']);
+  document.getElementById('m1-status').textContent = 'Done — waiting for Worker PC';
+  log('[Main PC / Worker 1] ✓ video_1of2_enc.mp4 written to Z:\\encoded\\', 'log-green');
+
+  await delay(700);
+  setJobPill('m2-jobs', 'video_2of2.mp4', 'done');
+  setFolder('folder-encoded', ['video_1of2_enc.mp4', 'video_2of2_enc.mp4']);
+  setFolder('folder-split', []);
+  document.getElementById('m2-status').textContent = 'Done — waiting for merge';
+  log('[Worker PC 2] ✓ video_2of2_enc.mp4 written to Z:\\encoded\\', 'log-green');
+
+  // Step 5: Merge
+  await delay(500);
+  log('[Assembler] Both segments complete — merging via mkvmerge...', 'log-yellow');
+  log('[Assembler] video_1of2_enc.mp4 + video_2of2_enc.mp4 → video_encoded.mp4', 'log-blue');
+  await delay(1000);
+  setFolder('folder-encoded', []);
+  setFolder('folder-output', ['video_encoded.mp4']);
+  log('[Assembler] ✓ video_encoded.mp4 written to Z:\\output\\', 'log-green');
+  log('[Watcher] Pipeline complete. Watching for next file...', 'log-blue');
+
+  document.getElementById('m1-status').textContent = 'Complete ✓';
+  document.getElementById('m2-status').textContent = 'Complete ✓';
+  pipeRunning = false;
+}
+
+function resetPipeline() {
+  pipeRunning = false;
+  document.getElementById('pipe-start').disabled = false;
+  document.getElementById('pipe-reset').disabled = true;
+  document.getElementById('pipe-log').innerHTML = '<div style="color:#8B8E99;font-style:italic;">Press Start to run the simulation...</div>';
+  clearPills('m1-jobs');
+  clearPills('m2-jobs');
+  document.getElementById('m1-status').textContent = 'Idle — watching Z:\\input\\';
+  document.getElementById('m2-status').textContent = 'Idle — watching Z:\\input\\';
+  setFolder('folder-input', []);
+  setFolder('folder-split', []);
+  setFolder('folder-encoded', []);
+  setFolder('folder-output', []);
+}
+
+// ── Lyrion Player Windows App Demo ───────────────────────────────────────────
+const winAlbums = [
+  { name: 'Neon Divide', artist: 'Neon Divide', emoji: '🌆', gradient: 'linear-gradient(135deg,#4A6FA5,#2D4A7A)',
+    tracks: [{ name: 'Midnight Circuit', duration: 214 }, { name: 'Fault Line', duration: 231 }, { name: 'Overpass', duration: 196 }] },
+  { name: 'Signal Loss', artist: 'Static Wire', emoji: '📡', gradient: 'linear-gradient(135deg,#5E7A6A,#2D4A3A)',
+    tracks: [{ name: 'Cold Signal', duration: 187 }, { name: 'Dead Channel', duration: 205 }, { name: 'Noise Floor', duration: 178 }] },
+  { name: 'Brutalist Geometry', artist: 'The Offset', emoji: '🏙️', gradient: 'linear-gradient(135deg,#7A5A8A,#3A2A4A)',
+    tracks: [{ name: 'Glass Architecture', duration: 253 }, { name: 'Load Bearing', duration: 222 }, { name: 'Cantilever', duration: 241 }] },
+  { name: 'Low Orbit', artist: 'Pale Echo', emoji: '🛸', gradient: 'linear-gradient(135deg,#5A7A9A,#2A4A6A)',
+    tracks: [{ name: 'Low Orbit', duration: 198 }, { name: 'Re-Entry', duration: 215 }, { name: 'Terminal Velocity', duration: 267 }] },
+  { name: 'Substrata', artist: 'Pale Echo', emoji: '🌊', gradient: 'linear-gradient(135deg,#4A7A8A,#2A4A5A)',
+    tracks: [{ name: 'Depth Charge', duration: 310 }, { name: 'Thermal Layer', duration: 289 }, { name: 'Cold Seep', duration: 334 }] },
+  { name: 'Fault Vectors', artist: 'Neon Divide', emoji: '⚡', gradient: 'linear-gradient(135deg,#9A7A4A,#5A4A2A)',
+    tracks: [{ name: 'Aftershock', duration: 188 }, { name: 'P-Wave', duration: 201 }, { name: 'Liquefaction', duration: 224 }] },
+];
+
+let winState = { view: 'albums', album: null, track: null, playing: false, elapsed: 0, timer: null };
+
+function winFmt(s) { return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`; }
+
+function winNav(view, el) {
+  document.querySelectorAll('.win-nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  winState.view = view;
+  winState.album = null;
+  winRender();
+}
+
+function winRender() {
+  const area = document.getElementById('win-content-area');
+  if (!area) return;
+  const { view, album, track, playing } = winState;
+
+  if (view === 'albums') {
+    area.innerHTML = `<div class="win-view-title">Albums</div><div class="win-album-grid">${
+      winAlbums.map((a,i) => `<div class="win-album-card" onclick="winOpenAlbum(${i})">
+        <div class="win-album-art" style="background:${a.gradient}">${a.emoji}</div>
+        <div class="win-album-name">${a.name}</div>
+        <div class="win-album-artist">${a.artist}</div>
+      </div>`).join('')
+    }</div>`;
+
+  } else if (view === 'album-detail' && album !== null) {
+    const a = winAlbums[album];
+    area.innerHTML = `
+      <button class="win-back-btn" onclick="winBackToAlbums()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg> Albums
+      </button>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+        <div style="width:64px;height:64px;border-radius:6px;background:${a.gradient};display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;">${a.emoji}</div>
+        <div>
+          <div style="font-size:1rem;font-weight:700;color:#E8E8F0;">${a.name}</div>
+          <div style="font-size:0.8125rem;color:#707070;margin-top:2px;">${a.artist} · ${a.tracks.length} tracks</div>
+        </div>
+      </div>
+      <div class="win-tracklist">${a.tracks.map((t,i) => {
+        const isActive = track && track.albumIdx === album && track.trackIdx === i;
+        return `<div class="win-track-row ${isActive ? 'active' : ''}" onclick="winPlayTrack(${album},${i})">
+          <div class="win-track-num">${isActive && playing ? '▶' : i+1}</div>
+          <div class="win-track-meta"><div class="win-track-name">${t.name}</div></div>
+          <div class="win-track-dur">${winFmt(t.duration)}</div>
+        </div>`;
+      }).join('')}</div>`;
+
+  } else if (view === 'artists') {
+    const artists = [...new Set(winAlbums.map(a => a.artist))];
+    area.innerHTML = `<div class="win-view-title">Artists</div><div class="win-tracklist">${
+      artists.map(name => {
+        const albums = winAlbums.filter(a => a.artist === name);
+        const total = albums.reduce((s,a) => s + a.tracks.length, 0);
+        return `<div class="win-track-row" style="cursor:default;">
+          <div style="width:34px;height:34px;border-radius:50%;background:${albums[0].gradient};display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">${albums[0].emoji}</div>
+          <div class="win-track-meta">
+            <div class="win-track-name">${name}</div>
+            <div style="font-size:0.7rem;color:#606060;">${albums.length} album${albums.length>1?'s':''} · ${total} tracks</div>
+          </div>
+        </div>`;
+      }).join('')
+    }</div>`;
+
+  } else if (view === 'queue') {
+    if (!track) {
+      area.innerHTML = `<div class="win-view-title">Queue</div><div style="color:#606060;font-size:0.875rem;margin-top:8px;">No track playing. Select a track from Albums to start the queue.</div>`;
+    } else {
+      const a = winAlbums[track.albumIdx];
+      area.innerHTML = `<div class="win-view-title">Queue</div><div style="font-size:0.75rem;color:#606060;margin-bottom:10px;">From: ${a.name}</div><div class="win-tracklist">${
+        a.tracks.map((t,i) => {
+          const isActive = track.trackIdx === i;
+          return `<div class="win-track-row ${isActive ? 'active' : ''}" onclick="winPlayTrack(${track.albumIdx},${i})">
+            <div class="win-track-num">${isActive && playing ? '▶' : i+1}</div>
+            <div class="win-track-meta"><div class="win-track-name">${t.name}</div></div>
+            <div class="win-track-dur">${winFmt(t.duration)}</div>
+          </div>`;
+        }).join('')
+      }</div>`;
+    }
+
+  } else if (view === 'server') {
+    area.innerHTML = `
+      <div class="win-view-title">LMS Server</div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid #2A2A2A;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <span style="font-size:0.8125rem;font-weight:600;color:#E8E8F0;">Lyrion Music Server</span>
+          <span style="font-size:0.7rem;background:rgba(58,125,74,0.2);color:#5A9D6A;border-radius:999px;padding:2px 8px;font-weight:600;">● Connected</span>
+        </div>
+        <div style="font-size:0.75rem;color:#606060;display:flex;flex-direction:column;gap:4px;">
+          <div>Host: <span style="color:#A0A0A0;">192.168.1.100:9000</span></div>
+          <div>Library: <span style="color:#A0A0A0;">18 albums · 54 tracks</span></div>
+          <div>Protocol: <span style="color:#A0A0A0;">JSON-RPC 2.0</span></div>
+          <div>Player ID: <span style="color:#A0A0A0;">00:04:20:ab:cd:ef</span></div>
+        </div>
+      </div>
+      <div style="font-size:0.75rem;color:#606060;">Polling interval: 2 s &nbsp;·&nbsp; Last sync: just now</div>`;
+  }
+}
+
+function winOpenAlbum(idx) {
+  winState.view = 'album-detail';
+  winState.album = idx;
+  winRender();
+}
+
+function winBackToAlbums() {
+  winState.view = 'albums';
+  winState.album = null;
+  document.querySelectorAll('.win-nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('wnav-albums').classList.add('active');
+  winRender();
+}
+
+function winPlayTrack(albumIdx, trackIdx) {
+  clearInterval(winState.timer);
+  winState.track = { albumIdx, trackIdx };
+  winState.elapsed = 0;
+  winState.playing = false;
+  const a = winAlbums[albumIdx];
+  const t = a.tracks[trackIdx];
+  document.getElementById('win-np-art').style.background = a.gradient;
+  document.getElementById('win-np-art').textContent = a.emoji;
+  document.getElementById('win-np-track').textContent = t.name;
+  document.getElementById('win-np-artist').textContent = a.artist;
+  document.getElementById('win-np-duration').textContent = winFmt(t.duration);
+  document.getElementById('win-np-elapsed').textContent = '0:00';
+  document.getElementById('win-np-fill').style.width = '0%';
+  winTogglePlay();
+  winRender();
+}
+
+function winTogglePlay() {
+  if (!winState.track) return;
+  const t = winAlbums[winState.track.albumIdx].tracks[winState.track.trackIdx];
+  if (winState.playing) {
+    clearInterval(winState.timer);
+    winState.playing = false;
+    document.getElementById('win-playicon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+  } else {
+    winState.playing = true;
+    document.getElementById('win-playicon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+    winState.timer = setInterval(() => {
+      winState.elapsed++;
+      if (winState.elapsed >= t.duration) { winNext(); return; }
+      document.getElementById('win-np-elapsed').textContent = winFmt(winState.elapsed);
+      document.getElementById('win-np-fill').style.width = (winState.elapsed / t.duration * 100) + '%';
+    }, 1000);
+  }
+  winRender();
+}
+
+function winNext() {
+  if (!winState.track) return;
+  const len = winAlbums[winState.track.albumIdx].tracks.length;
+  winPlayTrack(winState.track.albumIdx, (winState.track.trackIdx + 1) % len);
+}
+function winPrev() {
+  if (!winState.track) return;
+  const len = winAlbums[winState.track.albumIdx].tracks.length;
+  winPlayTrack(winState.track.albumIdx, (winState.track.trackIdx - 1 + len) % len);
+}
+
+function winSeek(e, bar) {
+  if (!winState.track) return;
+  const t = winAlbums[winState.track.albumIdx].tracks[winState.track.trackIdx];
+  const pct = Math.max(0, Math.min(1, (e.clientX - bar.getBoundingClientRect().left) / bar.offsetWidth));
+  winState.elapsed = Math.floor(pct * t.duration);
+  document.getElementById('win-np-fill').style.width = (pct * 100) + '%';
+  document.getElementById('win-np-elapsed').textContent = winFmt(winState.elapsed);
+}
+
+// Init
+winRender();
+</script>
+</body>
+</html>
