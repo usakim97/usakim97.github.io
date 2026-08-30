@@ -198,7 +198,7 @@
   <div class="container">
     <p class="section-label">About</p>
     <p>I graduated from Metropolitan Community College with an A.A.S. in Software Development (Dean's List) in December 2025. Before and during school, I was the sole technical resource everywhere I worked — setting up and maintaining POS systems, handling technical troubleshooting, onboarding staff on new systems, and building systems from scratch when none existed.</p>
-    <p>Outside of work I've built and maintained a full self-hosted home server stack, a two-PC distributed video encoding pipeline, and a self-hosted AI workspace I run on my own hardware — including the training-data pipeline described below. I learn by building real things and figuring out what breaks.</p>
+    <p>Outside of work I've built and maintained a full self-hosted home server stack, a two-PC distributed video encoding pipeline, and a self-hosted service stack I run on my own hardware — including the training-data pipeline described below. I learn by building real things and figuring out what breaks.</p>
   </div>
 </section>
 
@@ -435,11 +435,11 @@
       </div>
 
 
-      <!-- PROJECT 3: AI Workspace & Training-Data Pipeline -->
+      <!-- PROJECT 3: Service Stack & Training-Data Pipeline -->
       <div class="project-card">
         <div class="card-header">
           <div class="card-top">
-            <h3>Self-Hosted AI Workspace &amp; Training-Data Pipeline</h3>
+            <h3>Self-Hosted Service Stack &amp; Training-Data Pipeline</h3>
             <span class="badge badge-active">Ongoing</span>
           </div>
           <p class="desc">I run a multi-service Docker Compose deployment — FastAPI, ChromaDB, SearXNG, ntfy, Cloudflare tunnel — reachable over Tailscale, and contribute media ingest, transcription, and UI fixes to the open-source project it is built on. On top of it I designed a training-data pipeline for video and audio: clips are cut cheaply first, held for human review, and captioned on the GPU only after approval, so no model time is spent on footage that gets rejected. Reviewers type plain notes like <code>mute 2.5-3.0s; crop</code> and the pipeline parses and applies them with ffmpeg before captioning.</p>
